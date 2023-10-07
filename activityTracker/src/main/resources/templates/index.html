@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome To My store</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body style="background-image: url(https://www.freecodecamp.org/news/content/images/size/w2000/2022/09/jonatan-pie-3l3RwQdHRHg-unsplash.jpg)">
+<header>
+    <div class="container-fluid text-center">
+        <nav style="text-align: center">
+            <h1 style="color: gold;
+                        margin-top: 20%;
+                        font-size: 110px">TRACK MY DAY</h1>
+        </nav>
+
+        <div>
+            <p style="color: wheat; font-size: 50px">
+
+                <a class="text-decoration-none" th:href="@{/user/login}">Login</a> Or
+                <a class="text-decoration-none" th:href="@{/user/register}">Signup</a>
+
+            </p>
+        </div>
+    </div>
+</header>
+</body>
+</html>

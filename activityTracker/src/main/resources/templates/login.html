@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="text-center"><h2>Customer Login</h2></div>
+
+    <div th:if="${#messages}" class="alert alert-dismissible text-center" >
+        [[${message}]]
+    </div>
+
+    <form th:action="@{/user/login}" method="post" th:object="${userLogin}"
+          style="max-width: 500px; margin: 0 auto;">
+        <div class="border border-secondary rounded p-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">User Name</label>
+                <div class="col-sm-8">
+                    <input type="text" th:field="*{userName}" class="form-control" required minlength="8" maxlength="45">
+                </div>
+
+                <label class="col-sm-4 col-form-label">Password</label>
+                <div class="col-sm-8">
+                    <input type="password" th:field="*{password}" class="form-control" required minlength="4"
+                           maxlength="15">
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="button" class="btn btn-secondary" onclick="cancelForm()">Register</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    function cancelForm() {
+        window.location = "[[@{/user/register}]]";
+    }
+</script>
+</body>
+</html>
