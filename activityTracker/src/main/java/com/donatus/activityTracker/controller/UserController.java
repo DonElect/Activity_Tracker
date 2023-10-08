@@ -109,4 +109,34 @@ public class UserController {
         services.saveTask(task);
         return "redirect:/user/home";
     }
+
+    @GetMapping("/user/task_sort/{status}")
+    public String sortByStatus(@PathVariable String status, HttpSession session, Model model){
+        if ("ALL".equals(status))
+            return "redirect:/user/home";
+
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        List<Task> sortedTasks = services.viewTasksByStatus(userId, Status.valueOf(status));
+        model.addAttribute("tasks", sortedTasks);
+        model.addAttribute("newTask", new Task());
+
+        model.addAttribute("standardDate", new Date());
+
+        return "home";
+    }
+
+    @GetMapping("/user/task_time_sort/{time_sort}")
+    public String timeSort(@PathVariable String time_sort, Model model, HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        List<Task> sortedByDate = services.sortDate(userId, time_sort);
+        model.addAttribute("tasks", sortedByDate);
+
+        model.addAttribute("newTask", new Task());
+
+        model.addAttribute("standardDate", new Date());
+
+        return "home";
+    }
 }

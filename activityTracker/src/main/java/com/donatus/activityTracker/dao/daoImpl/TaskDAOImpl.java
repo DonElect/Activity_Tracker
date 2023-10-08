@@ -60,4 +60,18 @@ public class TaskDAOImpl implements TaskDAO {
     public Task editTask(Integer userId, Integer taskId) {
         return findTaskByUserIdAndTaskId(userId, taskId);
     }
+
+    @Override
+    public List<Task> sortTaskByUserIdAndDueDate(Integer userId) {
+        return entityManager.createQuery("FROM Task WHERE users.userId = : user_id ORDER BY dueDate", Task.class)
+                            .setParameter("user_id", userId)
+                            .getResultList();
+    }
+
+    @Override
+    public List<Task> sortTaskByUserIdAndAddedDate(Integer userId) {
+        return entityManager.createQuery("FROM Task WHERE users.userId = : user_id ORDER BY createdDate", Task.class)
+                .setParameter("user_id", userId)
+                .getResultList();
+    }
 }

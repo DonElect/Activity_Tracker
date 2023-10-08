@@ -17,4 +17,8 @@ public interface TaskDAO {
     void deleteTaskByUserIdAndTaskId(Integer userId, Integer taskId);
 
     Task editTask(Integer userId, Integer taskId);
+
+    List<Task> sortTaskByUserIdAndDueDate(Integer userId);
+
+    List<Task> sortTaskByUserIdAndAddedDate(Integer userId);
 }

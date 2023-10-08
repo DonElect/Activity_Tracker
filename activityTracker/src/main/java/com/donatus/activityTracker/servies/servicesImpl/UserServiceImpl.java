@@ -79,4 +79,11 @@ public class UserServiceImpl implements UserServices {
         Users users = findUser(userId);
         usersRepository.delete(users);
     }
+
+    @Override
+    public List<Task> sortDate(Integer userId, String sortType) {
+        return "ADDED_DATE".equals(sortType) ? taskDAO.sortTaskByUserIdAndAddedDate(userId) :
+                "DUE_DATE".equals(sortType) ? taskDAO.sortTaskByUserIdAndDueDate(userId) : null;
+    }
+
 }

@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="/home.css">
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -19,24 +19,26 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col">
         <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
-          <div class="card-body py-4 px-4 px-md-5">
-
+          <div class="card-body py-5 px-5 px-md-5">
+            
             <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
               <i class="fas fa-check-square me-1"></i>
               <u>My Activity Tracker</u>
             </p>
-
+            
             <form th:action="@{/user/add_task}" method="post" th:object="${newTask}">
               <div class="pb-2">
                 <div class="">
                   <div class="card-body">
                     <div class="d-flex flex-row align-items-center">
-                      <input type="text" th:field="*{activity}" class="form-control form-control-lg"
+                      <input type="text" th:field="*{activity}"
+                             class="form-control form-control-lg"
                              placeholder="Add new activity" style="width: 400px;">
-
-                      <input type="text" th:field="*{activityDetail}" class="form-control form-control-lg" id="exampleFormControlInput1"
+                      
+                      <input type="text" th:field="*{activityDetail}"
+                             class="form-control form-control-lg" id="exampleFormControlInput1"
                              placeholder="More Details" style="height: 70px; width: 800px">
-
+                      
                       <label for="meeting-time">Due Date:</label>
                       <input
                               type="datetime-local"
@@ -45,106 +47,141 @@
                               th:value="${#dates.format(standardDate, 'yyyy-MM-dd HH:mm')}"
                               th:min="${#dates.format(standardDate, 'yyyy-MM-dd HH:mm')}"
                               max="2100-06-14T00:00"
-
+                      
                       />
-
+                      
                       <div>
                         <button type="submit" class="btn btn-primary">Add</button>
                       </div>
-
+                    
                     </div>
                   </div>
                 </div>
               </div>
             </form>
-
-
+            
             <hr class="my-4">
-
-            <div class="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3">
-              <p class="small mb-0 me-2 text-muted">Filter</p>
-              <select class="select">
-                <option value="1">All</option>
-                <option value="DONE">Completed</option>
-                <option value="IN_PROGRESS">Active</option>
-                <option value="PENDING">Pending</option>
-              </select>
-              <p class="small mb-0 ms-4 me-2 text-muted">Sort</p>
-              <select class="select">
-                <option value="1">Added date</option>
-                <option value="2">Due date</option>
-              </select>
-              <a href="#!" style="color: #23af89;" data-mdb-toggle="tooltip" title="Ascending"><i
-                      class="fas fa-sort-amount-down-alt ms-2"></i></a>
+            
+            <div class="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3" >
+              <div class="dropdown m-4" style="margin-bottom: 5rem">
+                <button class="btn btn-primary" type="button" data-toggle="dropdown">
+                  Filter
+                  <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a th:href="@{/user/task_sort/ALL}">All</a></li>
+                  <li><a th:href="@{/user/task_sort/DONE}">Completed</a></li>
+                  <li><a th:href="@{/user/task_sort/IN_PROGRESS}">Active</a></li>
+                  <li><a th:href="@{/user/task_sort/PENDING}">Pending</a></li>
+                </ul>
+              </div>
+              
+              <div class="dropdown m-4" style="margin-bottom: 5rem">
+                <button class="btn btn-primary" type="button" data-toggle="dropdown">
+                  Sort
+                  <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a th:href="@{/user/task_time_sort/ADDED_DATE}">Added Date</a></li>
+                  <li><a th:href="@{/user/task_time_sort/DUE_DATE}">Due Date</a></li>
+                </ul>
+              </div>
+              
+<!--              <div style="margin-bottom: 5rem">-->
+<!--                <p class="small mb-0 ms-4 me-2 text-muted">Sort</p>-->
+<!--                <select class="select">-->
+<!--                  <option value="1">Added date</option>-->
+<!--                  <option value="2">Due date</option>-->
+<!--                </select>-->
+<!--                <a href="#!" style="color: #23af89;" data-mdb-toggle="tooltip" title="Ascending"><i-->
+<!--                        class="fas fa-sort-amount-down-alt ms-2"></i></a>-->
+<!--              </div>-->
             </div>
+            
+            <div>
+              <ul class="list-group rounded-0 bg-transparent" style="display: flex; gap: 2rem; flex-direction: row; max-width: 110rem">
+                <li
+                        class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
+                  <p class="lead fw-normal mb-0" style="color: green; background-color: black">Status</p>
+                </li>
+                
+                <li
+                        class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
+                  <p class="lead fw-normal mb-0" style="color: green; background-color: black">Activity</p>
+                </li>
+                
+                <li
+                        class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent"
+                        style="margin-left: 10rem; margin-right: 20rem">
+                  <p class="lead fw-normal mb-0" style="color: green; background-color: black">Activity Details</p>
+                </li>
+                
+                <li
+                        class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent"
+                        style="margin-left: 20rem">
+                  <p class="lead fw-normal mb-0" style="color: green; background-color: black">Due Date</p>
+                </li>
+                
+              </ul>
+            </div>
+            
+            <div>
             <th:block th:each="task : ${tasks}">
               <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
                 <li
                         class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
-
-<!--                    <label class="small mb-0 me-2 text-muted">Status</label>-->
-<!--                    <label>-->
-<!--                      <select name="status" class="select" onchange="getStatus(this)">-->
-<!--                        <option th:value="'DONE/' + ${task.taskId}">Completed</option>-->
-<!--                        <option th:value="'IN_PROGRESS/' + ${task.taskId}">Active</option>-->
-<!--                        <option th:value="'PENDING/' + ${task.taskId}">Pending</option>-->
-<!--                      </select>-->
-<!--                    </label>-->
-
+                  
                   <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status
+                    <button class="btn btn-primary " type="button"
+                            data-toggle="dropdown">Status
                       <span class="caret"></span></button>
                     <ul class="dropdown-menu">
-                      <li><a th:href="'/user/task_status/DONE/' + ${task.taskId}">Completed</a></li>
-                      <li><a th:href="'/user/task_status/IN_PROGRESS/' + ${task.taskId}">Active</a></li>
-                      <li><a th:href="'/user/task_status/PENDING/' + ${task.taskId}">Pending</a></li>
+                      <li><a th:href="'/user/task_status/DONE/' + ${task.taskId}">Completed</a>
+                      </li>
+                      <li>
+                        <a th:href="'/user/task_status/IN_PROGRESS/' + ${task.taskId}">Active</a>
+                      </li>
+                      <li><a th:href="'/user/task_status/PENDING/' + ${task.taskId}">Pending</a>
+                      </li>
                     </ul>
                   </div>
+                  
                 </li>
                 <li
                         class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                  <p class="lead fw-normal mb-0">[[${task.activity}]]</p>
+                  <p class="lead fw-normal mb-0" style="max-width: 200px">[[${task.activity}]]</p>
                 </li>
-
+                
                 <li
                         class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                  <p class="lead fw-normal mb-0 overflow-auto" style="overflow-wrap: normal">[[${task.activityDetail}]]</p>
+                  <p class="lead fw-normal mb-0" style="max-width: 500px">
+                    [[${task.activityDetail}]]</p>
                 </li>
-
+                
                 <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
                   <div class="d-flex flex-row justify-content-end mb-1">
-                    <a th:href="@{'/user/task/' + ${task.taskId}}" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
+                    <a th:href="@{'/user/task/' + ${task.taskId}}" class="text-info"
+                       data-mdb-toggle="tooltip" title="Edit todo"><i
                             class="fas fa-pencil-alt me-3"></i></a>
-                    <a th:href="@{'/user/task_delete/' + ${task.taskId}}" data-th-method="delete" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
+                    <a th:href="@{'/user/task_delete/' + ${task.taskId}}" data-th-method="delete"
+                       class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
                             class="fas fa-trash-alt"></i></a>
                   </div>
                   <div class="text-end text-muted">
                     <a class="text-muted" title="Created date">
-                      <p class="small mb-0"><i class="fas me-2"></i>[[${task.dueDate}]]</p>
+                      <p class=" mb-0"><i class="fas me-2"></i>[[${task.dueDate}]]</p>
                     </a>
                   </div>
                 </li>
               </ul>
             </th:block>
-
-
-
-
-            </div>
+          
           </div>
         </div>
       </div>
     </div>
   </div>
+  </div>
 
 </section>
-
-
-<script type="text/javascript">
-    function getStatus(status) {
-      window.location = "[[@{/user/task_status/}]]" + status.value;
-    }
-  </script>
 
 </body>
 </html>

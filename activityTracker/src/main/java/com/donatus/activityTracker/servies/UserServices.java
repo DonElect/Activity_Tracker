@@ -15,4 +15,5 @@ public interface UserServices {
     Users findUser(Integer userId);
     Users saveUser(Users user);
     void deleteUser(Integer userId);
+    List<Task> sortDate(Integer userId, String sortType);
 }
