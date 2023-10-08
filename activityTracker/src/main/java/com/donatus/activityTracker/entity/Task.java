@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.Instant;
 
 @Getter
@@ -21,11 +22,14 @@ public class Task {
     @Column(name = "task_id")
     private Integer taskId;
 
-    @Column(name = "activity")
+    @Column(name = "activity", columnDefinition = "VARCHAR(100)")
     private String activity;
 
-    @Column(name = "activity_detail", columnDefinition = "VARCHAR(45)")
+    @Column(name = "activity_detail", columnDefinition = "VARCHAR(1000)")
     private String activityDetail;
+
+    @Column(name = "due_date")
+    private Timestamp dueDate;
 
     @Column(name = "creation_time")
     @CreationTimestamp
@@ -36,7 +40,7 @@ public class Task {
     private Instant lastUpdate;
 
     @Column(name = "close_time")
-    private Date closeDate;
+    private Timestamp closeDate;
 
     @Column(name = "activity_status")
     @Enumerated(EnumType.STRING)

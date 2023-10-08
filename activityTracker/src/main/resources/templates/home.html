@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <title>Welcome Page</title>
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-  <link rel="stylesheet" th:href="/home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/home.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -17,24 +23,41 @@
 
             <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
               <i class="fas fa-check-square me-1"></i>
-              <u>My Todo-s</u>
+              <u>My Activity Tracker</u>
             </p>
 
-            <div class="pb-2">
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex flex-row align-items-center">
-                    <input type="text" class="form-control form-control-lg" id="exampleFormControlInput1"
-                           placeholder="Add new...">
-                    <a href="#!" data-mdb-toggle="tooltip" title="Set due date"><i
-                            class="fas fa-calendar-alt fa-lg me-3"></i></a>
-                    <div>
-                      <button type="button" class="btn btn-primary">Add</button>
+            <form th:action="@{/user/add_task}" method="post" th:object="${newTask}">
+              <div class="pb-2">
+                <div class="">
+                  <div class="card-body">
+                    <div class="d-flex flex-row align-items-center">
+                      <input type="text" th:field="*{activity}" class="form-control form-control-lg"
+                             placeholder="Add new activity" style="width: 400px;">
+
+                      <input type="text" th:field="*{activityDetail}" class="form-control form-control-lg" id="exampleFormControlInput1"
+                             placeholder="More Details" style="height: 70px; width: 800px">
+
+                      <label for="meeting-time">Due Date:</label>
+                      <input
+                              type="datetime-local"
+                              id="meeting-time"
+                              name="activity_dueDate"
+                              th:value="${#dates.format(standardDate, 'yyyy-MM-dd HH:mm')}"
+                              th:min="${#dates.format(standardDate, 'yyyy-MM-dd HH:mm')}"
+                              max="2100-06-14T00:00"
+
+                      />
+
+                      <div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                      </div>
+
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
+
 
             <hr class="my-4">
 
@@ -42,9 +65,9 @@
               <p class="small mb-0 me-2 text-muted">Filter</p>
               <select class="select">
                 <option value="1">All</option>
-                <option value="2">Completed</option>
-                <option value="3">Active</option>
-                <option value="4">Has due date</option>
+                <option value="DONE">Completed</option>
+                <option value="IN_PROGRESS">Active</option>
+                <option value="PENDING">Pending</option>
               </select>
               <p class="small mb-0 ms-4 me-2 text-muted">Sort</p>
               <select class="select">
@@ -54,102 +77,74 @@
               <a href="#!" style="color: #23af89;" data-mdb-toggle="tooltip" title="Ascending"><i
                       class="fas fa-sort-amount-down-alt ms-2"></i></a>
             </div>
+            <th:block th:each="task : ${tasks}">
+              <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
+                <li
+                        class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
 
-            <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
-              <li
-                      class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
-                <div class="form-check">
-                  <input class="form-check-input me-0" type="checkbox" value="" id="flexCheckChecked1"
-                         aria-label="..." checked />
-                </div>
-              </li>
-              <li
-                      class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                <p class="lead fw-normal mb-0">Buy groceries for next week</p>
-              </li>
-              <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
-                <div class="d-flex flex-row justify-content-end mb-1">
-                  <a href="#!" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
-                          class="fas fa-pencil-alt me-3"></i></a>
-                  <a href="#!" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
-                          class="fas fa-trash-alt"></i></a>
-                </div>
-                <div class="text-end text-muted">
-                  <a href="#!" class="text-muted" data-mdb-toggle="tooltip" title="Created date">
-                    <p class="small mb-0"><i class="fas fa-info-circle me-2"></i>28th Jun 2020</p>
-                  </a>
-                </div>
-              </li>
-            </ul>
-            <ul class="list-group list-group-horizontal rounded-0">
-              <li
-                      class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
-                <div class="form-check">
-                  <input class="form-check-input me-0" type="checkbox" value="" id="flexCheckChecked2"
-                         aria-label="..." />
-                </div>
-              </li>
-              <li
-                      class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                <p class="lead fw-normal mb-0">Renew car insurance</p>
-              </li>
-              <li class="list-group-item px-3 py-1 d-flex align-items-center border-0 bg-transparent">
-                <div
-                        class="py-2 px-3 me-2 border border-warning rounded-3 d-flex align-items-center bg-light">
-                  <p class="small mb-0">
-                    <a href="#!" data-mdb-toggle="tooltip" title="Due on date">
-                      <i class="fas fa-hourglass-half me-2 text-warning"></i>
+<!--                    <label class="small mb-0 me-2 text-muted">Status</label>-->
+<!--                    <label>-->
+<!--                      <select name="status" class="select" onchange="getStatus(this)">-->
+<!--                        <option th:value="'DONE/' + ${task.taskId}">Completed</option>-->
+<!--                        <option th:value="'IN_PROGRESS/' + ${task.taskId}">Active</option>-->
+<!--                        <option th:value="'PENDING/' + ${task.taskId}">Pending</option>-->
+<!--                      </select>-->
+<!--                    </label>-->
+
+                  <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status
+                      <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a th:href="'/user/task_status/DONE/' + ${task.taskId}">Completed</a></li>
+                      <li><a th:href="'/user/task_status/IN_PROGRESS/' + ${task.taskId}">Active</a></li>
+                      <li><a th:href="'/user/task_status/PENDING/' + ${task.taskId}">Pending</a></li>
+                    </ul>
+                  </div>
+                </li>
+                <li
+                        class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
+                  <p class="lead fw-normal mb-0">[[${task.activity}]]</p>
+                </li>
+
+                <li
+                        class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
+                  <p class="lead fw-normal mb-0 overflow-auto" style="overflow-wrap: normal">[[${task.activityDetail}]]</p>
+                </li>
+
+                <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
+                  <div class="d-flex flex-row justify-content-end mb-1">
+                    <a th:href="@{'/user/task/' + ${task.taskId}}" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
+                            class="fas fa-pencil-alt me-3"></i></a>
+                    <a th:href="@{'/user/task_delete/' + ${task.taskId}}" data-th-method="delete" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
+                            class="fas fa-trash-alt"></i></a>
+                  </div>
+                  <div class="text-end text-muted">
+                    <a class="text-muted" title="Created date">
+                      <p class="small mb-0"><i class="fas me-2"></i>[[${task.dueDate}]]</p>
                     </a>
-                    28th Jun 2020
-                  </p>
-                </div>
-              </li>
-              <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
-                <div class="d-flex flex-row justify-content-end mb-1">
-                  <a href="#!" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
-                          class="fas fa-pencil-alt me-3"></i></a>
-                  <a href="#!" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
-                          class="fas fa-trash-alt"></i></a>
-                </div>
-                <div class="text-end text-muted">
-                  <a href="#!" class="text-muted" data-mdb-toggle="tooltip" title="Created date">
-                    <p class="small mb-0"><i class="fas fa-info-circle me-2"></i>28th Jun 2020</p>
-                  </a>
-                </div>
-              </li>
-            </ul>
-            <ul class="list-group list-group-horizontal rounded-0 mb-2">
-              <li
-                      class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
-                <div class="form-check">
-                  <input class="form-check-input me-0" type="checkbox" value="" id="flexCheckChecked3"
-                         aria-label="..." />
-                </div>
-              </li>
-              <li
-                      class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                <p class="lead fw-normal mb-0 bg-light w-100 ms-n2 ps-2 py-1 rounded">Sign up for online
-                  course</p>
-              </li>
-              <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
-                <div class="d-flex flex-row justify-content-end mb-1">
-                  <a href="#!" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
-                          class="fas fa-trash-alt"></i></a>
-                </div>
-                <div class="text-end text-muted">
-                  <a href="#!" class="text-muted" data-mdb-toggle="tooltip" title="Created date">
-                    <p class="small mb-0"><i class="fas fa-info-circle me-2"></i>28th Jun 2020</p>
-                  </a>
-                </div>
-              </li>
-            </ul>
+                  </div>
+                </li>
+              </ul>
+            </th:block>
 
+
+
+
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 </section>
+
+
+<script type="text/javascript">
+    function getStatus(status) {
+      window.location = "[[@{/user/task_status/}]]" + status.value;
+    }
+  </script>
 
 </body>
 </html>

@@ -25,7 +25,7 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public List<Task> findTaskByUserId(Integer userId) {
         return entityManager
-                .createQuery("FROM Task WHERE Users .id= :input_id", Task.class)
+                .createQuery("FROM Task WHERE users.userId = :input_id", Task.class)
                 .setParameter("input_id", userId)
                 .getResultList();
     }
@@ -33,7 +33,7 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public Task findTaskByUserIdAndTaskId(Integer userId, Integer taskId) {
         List<Task> tasks = entityManager
-                .createQuery("FROM Task WHERE Users .id= :user_id AND Task.id = :task_id", Task.class)
+                .createQuery("FROM Task WHERE users.userId= :user_id AND taskId = :task_id", Task.class)
                 .setParameter("user_id", userId)
                 .setParameter("task_id", taskId)
                 .getResultList();
@@ -44,7 +44,7 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public List<Task> findTaskByUserIdAndStatus(Integer userId, Status status) {
         return entityManager
-                .createQuery("FROM Task WHERE Users .id= :user_id AND Task.status = :input_status", Task.class)
+                .createQuery("FROM Task WHERE users.userId= :user_id AND status = :input_status", Task.class)
                 .setParameter("user_id", userId)
                 .setParameter("input_status", status)
                 .getResultList();

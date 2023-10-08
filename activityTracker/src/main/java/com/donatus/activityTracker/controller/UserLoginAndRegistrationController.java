@@ -2,6 +2,8 @@ package com.donatus.activityTracker.controller;
 
 import com.donatus.activityTracker.entity.Users;
 import com.donatus.activityTracker.servies.UserRegistrationAndLoginServices;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
@@ -44,7 +46,7 @@ public class UserLoginAndRegistrationController {
     }
 
     @PostMapping("/user/login")
-    public String loginVerification(Users user, RedirectAttributes re){
+    public String loginVerification(Users user, RedirectAttributes re, HttpServletRequest request){
         Users verifiedUser = loginServices.verifyUser(user.getUserName(), user.getPassword());
 
         if (verifiedUser == null){
@@ -52,7 +54,8 @@ public class UserLoginAndRegistrationController {
             return "redirect:/user/login";
         }
 
-        System.out.println(verifiedUser);
-        return "home";
+        HttpSession session = request.getSession();
+        session.setAttribute("userId", verifiedUser.getUserId());
+        return "redirect:/user/home";
     }
 }

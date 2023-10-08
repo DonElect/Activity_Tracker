@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.Instant;
 
 
@@ -18,16 +19,18 @@ import java.time.Instant;
 public class TaskDTO {
     private String activity;
     private String activityDetail;
+    private Timestamp dueDate;
     private Instant createdDate;
     private Instant lastUpdate;
     private Date closeDate;
     private Status status;
 
-    public TaskDTO(String activity, String activityDetail, Instant createdDate, Instant lastUpdate, Status status) {
+    public TaskDTO(String activity, String activityDetail, Timestamp dueDate, Instant createdDate, Instant lastUpdate, Status status) {
         this.activity = activity;
         this.activityDetail = activityDetail;
         this.createdDate = createdDate;
         this.lastUpdate = lastUpdate;
         this.status = status;
+        this.dueDate = dueDate;
     }
 }
