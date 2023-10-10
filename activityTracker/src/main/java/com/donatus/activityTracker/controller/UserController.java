@@ -9,14 +9,14 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 @Controller
 public class UserController {
@@ -31,6 +31,10 @@ public class UserController {
     public String viewAllTasks(Model model, HttpSession session){
         Integer userId = (int) session.getAttribute("userId");
         List<Task> allTask = services.viewAllUserTask(userId);
+
+        String firstName = (String) session.getAttribute("firstName");
+
+        model.addAttribute("firstName", firstName);
 
         model.addAttribute("tasks", allTask);
         model.addAttribute("newTask", new Task());
@@ -126,6 +130,10 @@ public class UserController {
         Integer userId = (Integer) session.getAttribute("userId");
 
         List<Task> sortedTasks = services.viewTasksByStatus(userId, Status.valueOf(status));
+
+        String firstName = (String) session.getAttribute("firstName");
+        model.addAttribute("firstName", firstName);
+
         model.addAttribute("tasks", sortedTasks);
         model.addAttribute("newTask", new Task());
 
@@ -140,6 +148,9 @@ public class UserController {
 
         List<Task> sortedByDate = services.sortDate(userId, time_sort);
         model.addAttribute("tasks", sortedByDate);
+
+        String firstName = (String) session.getAttribute("firstName");
+        model.addAttribute("firstName", firstName);
 
         model.addAttribute("newTask", new Task());
 

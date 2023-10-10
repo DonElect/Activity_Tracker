@@ -1,13 +1,12 @@
 package com.donatus.activityTracker.servies.servicesImpl;
 
-import com.donatus.activityTracker.dao.TaskDAO;
+
 import com.donatus.activityTracker.entity.Status;
 import com.donatus.activityTracker.entity.Task;
 import com.donatus.activityTracker.entity.Users;
 import com.donatus.activityTracker.repository.TaskRepository;
 import com.donatus.activityTracker.repository.UsersRepository;
 import com.donatus.activityTracker.servies.UserServices;
-import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +44,10 @@ public class UserServiceImpl implements UserServices {
     @Transactional
     @Override
     public void deleteTask(Integer userId, Integer taskId) {
-        taskRepository.removeByUsersUserIdAndTaskId(userId, taskId);
+        Task task = taskRepository.findTasksByUsersUserIdAndTaskId(userId, taskId);
+
+        taskRepository.delete(task);
+        //taskRepository.removeByUsersUserIdAndTaskId(userId, taskId);
     }
 
     @Transactional

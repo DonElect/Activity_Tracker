@@ -56,6 +56,7 @@ public class UserLoginAndRegistrationController {
 
         HttpSession session = request.getSession();
         session.setAttribute("userId", verifiedUser.getUserId());
+        session.setAttribute("firstName", verifiedUser.getFirstName());
         return "redirect:/user/home";
     }
 }
