@@ -12,43 +12,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserServices {
     private final UsersRepository usersRepository;
-    private final EntityManager entityManager;
-    private final TaskDAO taskDAO;
     private final TaskRepository taskRepository;
 
     @Autowired
-    public UserServiceImpl(UsersRepository usersRepository, EntityManager entityManager, TaskDAO taskDAO, TaskRepository taskRepository) {
+    public UserServiceImpl(UsersRepository usersRepository, TaskRepository taskRepository) {
         this.usersRepository = usersRepository;
-        this.entityManager = entityManager;
-        this.taskDAO = taskDAO;
         this.taskRepository = taskRepository;
     }
 
     @Override
     public List<Task> viewAllUserTask(Integer userId) {
-        return taskDAO.findTaskByUserId(userId);
+        return taskRepository.findTasksByUsersUserId(userId);
     }
 
     @Override
     public Task viewSingleTask(Integer userId, Integer taskId) {
-        return taskDAO.findTaskByUserIdAndTaskId(userId, taskId);
+        return taskRepository.findTasksByUsersUserIdAndTaskId(userId, taskId);
     }
 
     @Override
     public List<Task> viewTasksByStatus(Integer userId, Status status) {
-        return taskDAO.findTaskByUserIdAndStatus(userId, status);
+        return taskRepository.findTasksByUsersUserIdAndStatus(userId, status);
     }
 
     @Transactional
     @Override
     public void deleteTask(Integer userId, Integer taskId) {
-        taskDAO.deleteTaskByUserIdAndTaskId(userId, taskId);
+        taskRepository.removeByUsersUserIdAndTaskId(userId, taskId);
     }
 
     @Transactional
@@ -82,8 +79,8 @@ public class UserServiceImpl implements UserServices {
 
     @Override
     public List<Task> sortDate(Integer userId, String sortType) {
-        return "ADDED_DATE".equals(sortType) ? taskDAO.sortTaskByUserIdAndAddedDate(userId) :
-                "DUE_DATE".equals(sortType) ? taskDAO.sortTaskByUserIdAndDueDate(userId) : null;
+        return "ADDED_DATE".equals(sortType) ? taskRepository.findTasksByUsersUserIdOrderByCreatedDate(userId) :
+                "DUE_DATE".equals(sortType) ? taskRepository.findTasksByUsersUserIdOrderByDueDate(userId) : new ArrayList<>();
     }
 
 }

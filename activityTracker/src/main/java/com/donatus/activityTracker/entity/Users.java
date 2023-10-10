@@ -9,9 +9,10 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
+//@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 //@Table(name = "users")
 public class Users {

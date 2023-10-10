@@ -12,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 @Controller
 public class UserController {
@@ -104,6 +107,11 @@ public class UserController {
 
         // Update status
         task.setStatus(Status.valueOf(status));
+
+        if ("DONE".equals(status)){
+            task.setCloseDate(Timestamp.valueOf(LocalDateTime.now()));
+        }
+
         task.setUsers(user);
 
         services.saveTask(task);

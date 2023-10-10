@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<section class="vh-100">
+<section class="vh-100 bg-info">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col">
@@ -33,14 +33,14 @@
                     <div class="d-flex flex-row align-items-center">
                       <input type="text" th:field="*{activity}"
                              class="form-control form-control-lg"
-                             placeholder="Add new activity" style="width: 400px;">
+                             placeholder="Add new activity" style="width: 400px; height: 70px">
                       
                       <input type="text" th:field="*{activityDetail}"
                              class="form-control form-control-lg" id="exampleFormControlInput1"
                              placeholder="More Details" style="height: 70px; width: 800px">
                       
                       <label for="meeting-time">Due Date:</label>
-                      <input
+                      <input class="border-0 "
                               type="datetime-local"
                               id="meeting-time"
                               name="activity_dueDate"
@@ -85,15 +85,6 @@
                 </ul>
               </div>
               
-<!--              <div style="margin-bottom: 5rem">-->
-<!--                <p class="small mb-0 ms-4 me-2 text-muted">Sort</p>-->
-<!--                <select class="select">-->
-<!--                  <option value="1">Added date</option>-->
-<!--                  <option value="2">Due date</option>-->
-<!--                </select>-->
-<!--                <a href="#!" style="color: #23af89;" data-mdb-toggle="tooltip" title="Ascending"><i-->
-<!--                        class="fas fa-sort-amount-down-alt ms-2"></i></a>-->
-<!--              </div>-->
             </div>
             
             <div>
@@ -123,9 +114,9 @@
               </ul>
             </div>
             
-            <div>
+            <div >
             <th:block th:each="task : ${tasks}">
-              <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
+              <ul class="list-group list-group-horizontal rounded-0 bg-transparent ">
                 <li
                         class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
                   
@@ -151,8 +142,8 @@
                 </li>
                 
                 <li
-                        class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                  <p class="lead fw-normal mb-0" style="max-width: 500px">
+                        class="list-group-item px-3 py-1 d-flex align-items-center flex-xl-grow-1 justify-content-end border-0 bg-transparent">
+                  <p class="lead fw-normal mb-0" style="max-width: 500px; margin-right: 80px; direction: ltr">
                     [[${task.activityDetail}]]</p>
                 </li>
                 

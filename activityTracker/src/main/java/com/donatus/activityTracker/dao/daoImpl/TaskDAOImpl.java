@@ -5,7 +5,6 @@ import com.donatus.activityTracker.entity.Status;
 import com.donatus.activityTracker.entity.Task;
 import com.donatus.activityTracker.repository.TaskRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
