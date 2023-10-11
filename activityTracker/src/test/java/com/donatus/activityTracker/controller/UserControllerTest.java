@@ -3,18 +3,13 @@ package com.donatus.activityTracker.controller;
 import com.donatus.activityTracker.entity.Status;
 import com.donatus.activityTracker.entity.Task;
 import com.donatus.activityTracker.entity.Users;
-import com.donatus.activityTracker.repository.UsersRepository;
 import com.donatus.activityTracker.servies.UserRegistrationAndLoginServices;
-import com.donatus.activityTracker.servies.UserServices;
-import com.donatus.activityTracker.servies.servicesImpl.UserRegistrationAndLoginServicesImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.apache.catalina.security.SecurityConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,29 +23,24 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 @Import(SecurityConfig.class)
 @WebMvcTest(UserLoginAndRegistrationController.class)
-
-class UserLoginAndRegistrationControllerTest {
-
+class UserControllerTest {
     @Autowired
-    private MockMvc  mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
     private UserRegistrationAndLoginServices loginServices;
 
     @Autowired
     private ObjectMapper objectMapper;
-
-//    @InjectMocks
-//    private UserRegistrationAndLoginServicesImpl loginServices;
 
     private Users user1, user2;
 
@@ -110,34 +100,56 @@ class UserLoginAndRegistrationControllerTest {
 
 
     @Test
-    void return_registration_view() throws Exception {
+    void viewAllTasks() throws Exception {
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/user/register"))
-                .andExpect(status().is(200));
+                .perform(MockMvcRequestBuilders.get("/user/home"))
+                .andExpect(status().is(404));
     }
 
     @Test
-    void return_saveUser_view() throws Exception {
-        Users registeredUser = Mockito.mock(Users.class);
-        when(loginServices.registerUser(Mockito.any())).thenReturn(registeredUser);
+    void return_addTask_view() throws Exception {
         this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/user/register")
-                        .sessionAttr("registeredUser", registeredUser))
-                .andExpect(status().is(302));
+                .perform(MockMvcRequestBuilders.get("/user/add_task"))
+                .andExpect(status().is(404));
+
     }
 
     @Test
-    void return_login_view() throws Exception {
+    void return_editTask_view() throws Exception {
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/user/login"))
-                .andExpect(status().is(200));
+                .perform(MockMvcRequestBuilders.get("/user/task/").param("taskId", "1"))
+                .andExpect(status().is(404));
     }
 
     @Test
-    void loginVerification() throws Exception {
+    void return_saveEditTask_view() throws Exception {
         this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/user/login"))
-                .andExpect(status().is(302));
+                .perform(MockMvcRequestBuilders.post("/user/task"))
+                .andExpect(status().is(404));
     }
 
+    @Test
+    void return_deleteTask_view() throws Exception {
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.get("/user/task/").param("taskId", "1"))
+                .andExpect(status().is(404));
+    }
+
+    @Test
+    void updateStatus() throws Exception {
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.get("/user/task_status")
+                        .param("status", "DONE")
+                        .param("taskId", "1"))
+                .andExpect(status().is(404));
+    }
+
+    @Test
+    void sortByStatus() {
+
+    }
+
+    @Test
+    void timeSort() {
+    }
 }

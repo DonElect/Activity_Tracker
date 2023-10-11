@@ -1,11 +1,12 @@
 package com.donatus.activityTracker.controller;
 
+import com.donatus.activityTracker.dto.UserRequestDTO;
+import com.donatus.activityTracker.dto.mapper.UserDTORequestMapperService;
 import com.donatus.activityTracker.entity.Users;
 import com.donatus.activityTracker.servies.UserRegistrationAndLoginServices;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UserLoginAndRegistrationController {
     private final UserRegistrationAndLoginServices loginServices;
+    private final UserDTORequestMapperService requestMapperService;
 
     @Autowired
-    public UserLoginAndRegistrationController(UserRegistrationAndLoginServices loginServices) {
+    public UserLoginAndRegistrationController(UserRegistrationAndLoginServices loginServices, UserDTORequestMapperService requestMapperService) {
         this.loginServices = loginServices;
+        this.requestMapperService = requestMapperService;
     }
 
     @GetMapping("/user/register")
@@ -41,12 +44,15 @@ public class UserLoginAndRegistrationController {
 
     @GetMapping("/user/login")
     public String login(Model model){
-        model.addAttribute("userLogin", new Users());
+        model.addAttribute("userLogin", new UserRequestDTO());
         return "login";
     }
 
     @PostMapping("/user/login")
-    public String loginVerification(Users user, RedirectAttributes re, HttpServletRequest request){
+    public String loginVerification(UserRequestDTO res, RedirectAttributes re, HttpServletRequest request){
+        
+        Users user = requestMapperService.mapper(res);
+
         Users verifiedUser = loginServices.verifyUser(user.getUserName(), user.getPassword());
 
         if (verifiedUser == null){
