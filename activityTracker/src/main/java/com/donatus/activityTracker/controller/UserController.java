@@ -79,6 +79,8 @@ public class UserController {
     public String saveEditTask(Task editedTask, HttpSession session, HttpServletRequest req){
         Integer userId = (Integer) session.getAttribute("userId");
 
+        System.out.println(req.getParameter("activity_dueDate"));
+
         String activity_dueDate = req.getParameter("activity_dueDate")
                 .replace("T", " ")
                 .concat(":00.000000000");

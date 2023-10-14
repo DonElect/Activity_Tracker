@@ -1,7 +1,9 @@
 package com.donatus.activityTracker.servies.servicesImpl;
 
 import com.donatus.activityTracker.entity.Users;
+import com.donatus.activityTracker.exception.InvalidUserPassword;
 import com.donatus.activityTracker.repository.UsersRepository;
+import com.donatus.activityTracker.utils.PasswordEncryption;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +12,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.WeakHashMap;
 
 import static org.mockito.Mockito.when;
 
@@ -19,6 +24,9 @@ import static org.mockito.Mockito.when;
 class UserRegistrationAndLoginServicesImplTest {
 
     private Users user1, user2;
+
+    @Mock
+    private PasswordEncryption encryption;
 
     @Mock
     private UsersRepository usersRepository;
@@ -62,10 +70,15 @@ class UserRegistrationAndLoginServicesImplTest {
     }
 
     @Test
-    void verifyUser() {
-        when(usersRepository.findByUserNameAndPassword(Mockito.anyString(), Mockito.anyString())).thenReturn(user2);
+    void verifyUser() throws InvalidUserPassword {
+        String hashedPassword = encryption.encryptPassword(user2.getPassword());
+        when(encryption.isPassword(user2.getPassword(), hashedPassword)).thenReturn(true);
+        //when(BCrypt.checkpw(user2.getPassword(), hashedPassword)).thenReturn(true);
 
-        Users savedUser2 = services.verifyUser(user2.getUserName(), user2.getPassword());
+        when(usersRepository.findUsersByEmail(Mockito.anyString())).thenReturn(Optional.ofNullable(user2));
+
+
+        Users savedUser2 = services.verifyUser(user2.getEmail(), user2.getPassword());
 
         Assertions.assertThat(savedUser2).isNotNull();
     }

@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,16 +17,17 @@ import java.time.Instant;
 
 @Getter
 @Setter
-public class TaskDTO {
+@NoArgsConstructor
+public class TaskResponseDTO {
     private String activity;
     private String activityDetail;
-    private Timestamp dueDate;
+    private String dueDate;
     private Instant createdDate;
     private Instant lastUpdate;
     private Date closeDate;
     private Status status;
 
-    public TaskDTO(String activity, String activityDetail, Timestamp dueDate, Instant createdDate, Instant lastUpdate, Status status) {
+    public TaskResponseDTO(String activity, String activityDetail, String  dueDate, Instant createdDate, Instant lastUpdate, Status status) {
         this.activity = activity;
         this.activityDetail = activityDetail;
         this.createdDate = createdDate;

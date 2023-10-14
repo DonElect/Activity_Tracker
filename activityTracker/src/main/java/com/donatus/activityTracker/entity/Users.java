@@ -9,30 +9,29 @@ import java.util.List;
 
 @Getter
 @Setter
-//@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-//@Table(name = "users")
+@Table(name = "users")
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Integer userId;
-    @Column(name = "first_name", columnDefinition = "VARCHAR(25)")
+    @Column(name = "first_name", length = 25)
     private String firstName;
-    @Column(name = "last_name", columnDefinition = "VARCHAR(25)")
+    @Column(name = "last_name", length = 25)
     private String lastName;
-    @Column(name = "email", columnDefinition = "VARCHAR(35)")
+    @Column(name = "email", length = 35, unique = true)
     private String email;
-    @Column(name = "password", columnDefinition = "VARCHAR(15)")
+    @Column(name = "password", length = 68)
     private  String password;
-    @Column(name = "user_name", columnDefinition = "VARCHAR(15)")
+    @Column(name = "user_name", length = 15)
     private String userName;
-    @Column(name = "occupation", columnDefinition = "VARCHAR(25)")
+    @Column(name = "occupation", length = 45)
     private String occupation;
-    @Column(name = "address", columnDefinition = "VARCHAR(45)")
+    @Column(name = "address", length = 100)
     private String address;
 
     @OneToMany(fetch =  FetchType.LAZY, mappedBy = "users", cascade = CascadeType.ALL)

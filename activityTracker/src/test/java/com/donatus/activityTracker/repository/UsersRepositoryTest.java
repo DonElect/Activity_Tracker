@@ -48,7 +48,7 @@ class UsersRepositoryTest {
 
         Users savedUser = repository.save(users);
 
-        Assertions.assertNotNull(repository.findByUserNameAndPassword(savedUser.getUserName(), savedUser.getPassword()));
+        Assertions.assertNotNull(repository.findUsersByEmail(savedUser.getUserName()));
     }
 
     @Test
